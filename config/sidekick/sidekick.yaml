@@ -1,0 +1,14 @@
+apiVersion: serving.knative.dev/v1
+kind: Service
+metadata:
+  name: falcosidekick
+spec:
+  template:
+    spec:
+      containers:
+        - image: ko://github.com/falcosecurity/falcosidekick
+          env:
+            - name: LISTENPORT
+              value: "8080"
+            - name: CLOUDEVENTS_ADDRESS
+              value: http://drop.default.svc.cluster.local

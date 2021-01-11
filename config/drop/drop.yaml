@@ -1,0 +1,15 @@
+apiVersion: serving.knative.dev/v1
+kind: Service
+metadata:
+  name: drop
+  labels:
+    serving.knative.dev/visibility: cluster-local
+spec:
+  template:
+    spec:
+      serviceAccountName: drop
+      containers:
+        - image: ko://github.com/n3wscott/falco-drop/cmd/drop
+          env:
+            - name: NAMESPACE
+              value: default
