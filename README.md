@@ -2,19 +2,14 @@
 
 ## Setup
 
-1. Install [Knative Serving](https://knative.dev).
-1. Install [Knative Eventing](https://knative.dev).
-1. Install [Falco](https://falco.org/).
-1. Install [Falco Sidekick](https://github.com/falcosecurity/falcosidekick).
-    > Note: There is a yaml file to help if you want to do this with `ko`.
-    
-    Falco Sidekick needs to have the CloudEvents otuput enabled and pointed to `http://drop.default.svc.cluster.local`.
-
+1. Install [Knative Serving and Eventing](https://knative.dev).
 1. Install This repo:
+     ```
+    kubectl apply -f https://github.com/n3wscott/falco-drop/releases/download/v0.0.2/release.yaml
     ```
-   kubectl apply -f https://github.com/n3wscott/falco-drop/releases/download/v0.0.2/release.yaml
-   ```
-
+    > Note: This release contains [Falco Sidekick](https://github.com/falcosecurity/falcosidekick), deployed as a Knative Service.
+1. Install [Falco](https://falco.org/).
+    > Note: Falco needs to be configured to send to Falco Sidekick. `kubectl get ksvc falcosidekick` for the url.
 1. Optionally, install [Sockeye](https://github.com/n3wscott/sockeye).
 1. Optionally, install [Graph](https://github.com/n3wscott/graph).
 
