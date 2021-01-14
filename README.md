@@ -74,12 +74,12 @@ After this is all installed, you will have an eventing topology like this:
    And sends this to the Knative Eventing Broker "default".
 
 1. The Knative Eventing Broker delivers the CloudEvent to all matching triggers, in our case two:
-
-
-  1. The `drop` service filters events and for the Rule `Terminal shell in container`, deletes the pod:
-
-    > [Terminal shell in container] deleted mysql-db-7d59548d75-wh44s from default because 23:48:20.851908334: Notice A shell was spawned in a container with an attached terminal (user=root user_loginuid=-1 k8s.ns=default k8s.pod=mysql-db-7d59548d75-wh44s container=f29b261f8831 shell=bash parent=runc cmdline=bash -il terminal=34816 container_id=f29b261f8831 image=mysql) k8s.ns=default k8s.pod=mysql-db-7d59548d75-wh44s container=f29b261f8831
-
-  1. `Sockeye` also recieves the event and displays it:
-
-    ![Sockeye showing the CloudEvent](./img/sockeye.png)
+   - The `drop` service filters events and for the Rule `Terminal shell in container`, deletes the pod:
+     > [Terminal shell in container] deleted mysql-db-7d59548d75-wh44s from default because 23:48:20.851908334: Notice A shell was spawned in a container with an attached terminal (user=root user_loginuid=-1 k8s.ns=default k8s.pod=mysql-db-7d59548d75-wh44s container=f29b261f8831 shell=bash parent=runc cmdline=bash -il terminal=34816 container_id=f29b261f8831 image=mysql) k8s.ns=default k8s.pod=mysql-db-7d59548d75-wh44s container=f29b261f8831
+     And this knocks the shell off the deleted pod:
+     ```
+     (╯°□°)╯︵     kubectl exec -it $(kubectl get pods --selector="app=mysql-db" --output=jsonpath={.items..metadata.name}) -- bash -il
+     root@mysql-db-7d59548d75-89v4c:/# command terminated with exit code 137
+     ```
+   - `Sockeye` also recieves the event and displays it:
+     ![Sockeye showing the CloudEvent](./img/sockeye.png)
