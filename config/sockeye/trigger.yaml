@@ -1,0 +1,18 @@
+# The depends on having Sockeye installed: https://github.com/n3wscott/sockeye
+
+apiVersion: eventing.knative.dev/v1
+kind: Trigger
+metadata:
+  name: falco-sockeye
+  namespace: default
+spec:
+  broker: default
+  filter:
+    attributes:
+      source: falco.org
+      type: falco.rule.output.v1
+  subscriber:
+    ref:
+      apiVersion: serving.knative.dev/v1
+      kind: Service
+      name: sockeye

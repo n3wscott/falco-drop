@@ -23,7 +23,7 @@
 
 1. Go try to do bad things on that pod:
    ```
-   kubectl exec -it mysql-db-d5dc6b85d-77hrm -- bash -il  # Replace with the mysql pod name you have
+   kubectl exec -it $(kubectl get pods --selector="app=mysql-db" --output=jsonpath={.items..metadata.name}) -- bash -il
    ```
 
 ### Expected Results

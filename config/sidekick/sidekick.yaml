@@ -11,4 +11,5 @@ spec:
             - name: LISTENPORT
               value: "8080"
             - name: CLOUDEVENTS_ADDRESS
-              value: http://drop.default.svc.cluster.local
+              value: http://broker-ingress.knative-eventing.svc.cluster.local/default/default # this needs to be updated to your broker url
+
