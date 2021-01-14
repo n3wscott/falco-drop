@@ -3,6 +3,7 @@
 ## Setup
 
 1. Install [Knative Serving](https://knative.dev).
+1. Install [Knative Eventing](https://knative.dev).
 1. Install [Falco](https://falco.org/).
 1. Install [Falco Sidekick](https://github.com/falcosecurity/falcosidekick).
     > Note: There is a yaml file to help if you want to do this with `ko`.
