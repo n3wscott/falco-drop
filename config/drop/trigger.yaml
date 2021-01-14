@@ -1,0 +1,16 @@
+apiVersion: eventing.knative.dev/v1
+kind: Trigger
+metadata:
+  name: drop
+  namespace: default
+spec:
+  broker: default
+  filter:
+    attributes:
+      source: falco.org
+      type: falco.rule.output.v1
+  subscriber:
+    ref:
+      apiVersion: serving.knative.dev/v1
+      kind: Service
+      name: drop

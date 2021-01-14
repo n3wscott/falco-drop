@@ -1,0 +1,162 @@
+#listenport: 2801 # port to listen for daemon (default: 2801)
+debug: false # if true all outputs will print in stdout the payload they send (default: false)
+customfields: # custom fields are added to falco events
+  Akey: "AValue"
+  Bkey: "BValue"
+  Ckey: "CValue"
+checkCert: true # check if ssl certificate of the output is valid (default: true)
+
+slack:
+  webhookurl: "" # Slack WebhookURL (ex: https://hooks.slack.com/services/XXXX/YYYY/ZZZZ), if not empty, Slack output is enabled
+  #footer: "" # Slack footer
+  #icon: "" # Slack icon (avatar)
+  #username: "" # Slack username (default: Falcosidekick)
+  outputformat: "all" # all (default), text, fields
+  minimumpriority: "debug" # minimum priority of event for using this output, order is emergency|alert|critical|error|warning|notice|informational|debug or "" (default)
+  messageformat: 'Alert : rule *{{ .Rule }}* triggered by user *{{ index .OutputFields "user.name" }}*' # a Go template to format Slack Text above Attachment, displayed in addition to the output from `SLACK_OUTPUTFORMAT`, see [Slack Message Formatting](#slack-message-formatting) in the README for details. If empty, no Text is displayed before Attachment.
+
+rocketchat:
+  webhookurl: "" # Rocketchat WebhookURL (ex: http://XXXX/hooks/YYYY), if not empty, Rocketchat output is enabled
+  #icon: "" # Rocketchat icon (avatar)
+  #username: "" # Rocketchat username (default: Falcosidekick)
+  outputformat: "all" # all (default), text, fields
+  minimumpriority: "debug" # minimum priority of event for using this output, order is emergency|alert|critical|error|warning|notice|informational|debug or "" (default)
+  # messageformat: "Alert : rule *{{ .Rule }}* triggered by user *{{ index .OutputFields \"user.name\" }}*" # a Go template to format Rocketchat Text above Attachment, displayed in addition to the output from `ROCKETCHAT_OUTPUTFORMAT`, see [Slack Message Formatting](#slack-message-formatting) in the README for details. If empty, no Text is displayed before Attachment.
+
+mattermost:
+  webhookurl: "" # Mattermost WebhookURL (ex: http://XXXX/hooks/YYYY), if not empty, Mattermosst output is enabled
+  #footer: "" # Mattermost footer
+  #icon: "" # Mattermost icon (avatar)
+  #username: "" # Mattermost username (default: Falcosidekick)
+  outputformat: "all" # all (default), text, fields
+  minimumpriority: "debug" # minimum priority of event for using this output, order is emergency|alert|critical|error|warning|notice|informational|debug or "" (default)
+  # messageformat: "Alert : rule **{{ .Rule }}** triggered by user **{{ index .OutputFields \"user.name\" }}**" # a Go template to format Mattermost Text above Attachment, displayed in addition to the output from `MATTERMOST_OUTPUTFORMAT`, see [Slack Message Formatting](#slack-message-formatting) in the README for details. If empty, no Text is displayed before Attachment.
+
+teams:
+  webhookurl: "" # Teams WebhookURL (ex: https://hooks.slack.com/services/XXXX/YYYY/ZZZZ), if not empty, Teams output is enabled
+  #activityimage: "" # Image for message section
+  outputformat: "text" # all (default), text, facts
+  minimumpriority: "debug" # minimum priority of event for using this output, order is emergency|alert|critical|error|warning|notice|informational|debug or "" (default)
+
+datadog:
+  # apikey: "" # Datadog API Key, if not empty, Datadog output is enabled
+  # host: "" # Datadog host. Override if you are on the Datadog EU site. Defaults to american site with "https://api.datadoghq.com"
+  # minimumpriority: "" # minimum priority of event for using this output, order is emergency|alert|critical|error|warning|notice|informational|debug or "" (default)
+
+alertmanager:
+  # hostport: "" # http://{domain or ip}:{port}, if not empty, Alertmanager output is enabled
+  # minimumpriority: "" # minimum priority of event for using this output, order is emergency|alert|critical|error|warning|notice|informational|debug or "" (default)
+
+elasticsearch:
+  # hostport: "" # http://{domain or ip}:{port}, if not empty, Elasticsearch output is enabled
+  # index: "falco" # index (default: falco)
+  # type: "event"
+  # minimumpriority: "" # minimum priority of event for using this output, order is emergency|alert|critical|error|warning|notice|informational|debug or "" (default)
+  # suffix: "daily" # date suffix for index rotation : daily (default), monthly, annually, none
+
+influxdb:
+  # hostport: "" # http://{domain or ip}:{port}, if not empty, Influxdb output is enabled
+  # database: "falco" # Influxdb database (default: falco)
+  # user: "" # user to use if auth is enabled in Influxdb
+  # password: "" # pasword to use if auth is enabled in Influxdb
+  # minimumpriority: "" # minimum priority of event for using this output, order is emergency|alert|critical|error|warning|notice|informational|debug or "" (default)
+
+loki:
+  # hostport: "" # http://{domain or ip}:{port}, if not empty, Loki output is enabled
+  # minimumpriority: "" # minimum priority of event for using this output, order is emergency|alert|critical|error|warning|notice|informational|debug or "" (default)
+
+nats:
+  # hostport: "" # nats://{domain or ip}:{port}, if not empty, NATS output is enabled
+  # minimumpriority: "" # minimum priority of event for using this output, order is emergency|alert|critical|error|warning|notice|informational|debug or "" (default)
+
+aws:
+  # accesskeyid: "" # aws access key (optionnal if you use EC2 Instance Profile)
+  # secretaccesskey: "" # aws secret access key (optionnal if you use EC2 Instance Profile)
+  # region : "" # aws region (optionnal if you use EC2 Instance Profile)
+  lambda:
+  # functionname : "" # Lambda function name, if not empty, AWS Lambda output is enabled
+  # minimumpriority: "" # minimum priority of event for using this output, order is emergency|alert|critical|error|warning|notice|informational|debug or "" (default)
+  sqs:
+    # url : "" # SQS Queue URL, if not empty, AWS SQS output is enabled
+    # minimumpriority: "" # minimum priority of event for using this output, order is emergency|alert|critical|error|warning|notice|informational|debug or "" (default)
+  sns:
+    # topicarn : "" # SNS TopicArn, if not empty, AWS SNS output is enabled
+    rawjson: false # Send Raw JSON or parse it (default: false)
+    # minimumpriority: "" # minimum priority of event for using this output, order is emergency|alert|critical|error|warning|notice|informational|debug or "" (default)
+  cloudwatchlogs:
+    # loggroup : "" #  AWS CloudWatch Logs Group name, if not empty, CloudWatch Logs output is enabled
+    # logstream : "" # AWS CloudWatch Logs Stream name, if empty, Falcosidekick will try to create a log stream
+    # minimumpriority: "" # minimum priority of event for using this output, order is emergency|alert|critical|error|warning|notice|informational|debug or "" (default)
+
+smtp:
+  # hostport: "" # host:port address of SMTP server, if not empty, SMTP output is enabled
+  # user: "" # user to access SMTP server
+  # password: "" # password to access SMTP server
+  # from: "" # Sender address (mandatory if SMTP output is enabled)
+  # to: "" # comma-separated list of Recipident addresses, can't be empty (mandatory if SMTP output is enabled)
+  # outputformat: "" # html (default), text
+  # minimumpriority: "" # minimum priority of event for using this output, order is emergency|alert|critical|error|warning|notice|informational|debug or "" (default)
+
+statsd:
+  forwarder: "" # The address for the StatsD forwarder, in the form "host:port", if not empty StatsD is enabled
+  namespace: "falcosidekick." # A prefix for all metrics (default: "falcosidekick.")
+
+dogstatsd:
+  forwarder: "" # The address for the DogStatsD forwarder, in the form "host:port", if not empty DogStatsD is enabled
+  namespace: "falcosidekick." # A prefix for all metrics (default: "falcosidekick.")
+  # tag :
+  #   key: "value"
+
+opsgenie:
+  # apikey: "2c771471-e2af-4dc6-bd35-e7f6ff479b64" # Opsgenie API Key, if not empty, Opsgenie output is enabled
+  region: "eu" # (us|eu) region of your domain
+  # minimumpriority: "" # minimum priority of event for using this output, order is emergency|alert|critical|error|warning|notice|informational|debug or "" (default)
+
+webhook:
+  # address: "" # Webhook address, if not empty, Webhook output is enabled
+  # customHeaders: # Custom headers to add in POST, useful for Authentication
+  #   key: value
+  # minimumpriority: "" # minimum priority of event for using this output, order is emergency|alert|critical|error|warning|notice|informational|debug or "" (default)
+
+cloudevents:
+# address: "" # CloudEvents consumer http address, if not empty, CloudEvents output is enabled
+# extensions: # Extensions to add in the outbound Event, useful for routing
+#   key: value
+# minimumpriority: "" # minimum priority of event for using this output, order is emergency|alert|critical|error|warning|notice|informational|debug or "" (default)
+
+azure:
+  eventHub:
+    name: "" # Name of the Hub, if not empty, EventHub is enabled
+    namespace: "" # Name of the space the Hub is in
+    # minimumpriority: "" # minimum priority of event for using this output, order is emergency|alert|critical|error|warning|notice|informational|debug or "" (default)
+
+discord:
+  webhookurl: "" # discord WebhookURL (ex: https://discord.com/api/webhooks/xxxxxxxxxx...), if not empty, Discord output is enabled
+  # icon: "" # Discord icon (avatar)
+  # minimumpriority: "debug" # minimum priority of event for using this output, order is emergency|alert|critical|error|warning|notice|informational|debug or "" (default)
+
+gcp:
+  credentials: "" # The base64-encoded JSON key file for the GCP service account
+  pubsub:
+    projectid: "" # The GCP Project ID containing the Pub/Sub Topic
+    topic: "" # The name of the Pub/Sub topic
+  # minimumpriority: "debug" # minimum priority of event for using this output, order is emergency|alert|critical|error|warning|notice|informational|debug or "" (default)
+
+googlechat:
+  webhookurl: "" # Google Chat WebhookURL (ex: https://chat.googleapis.com/v1/spaces/XXXXXX/YYYYYY), if not empty, Google Chat output is enabled
+  # outputformat: "" # all (default), text
+  # minimumpriority: "" # minimum priority of event for using this output, order is emergency|alert|critical|error|warning|notice|informational|debug or "" (default)
+  messageformat: 'Alert : rule *{{ .Rule }}* triggered by user *{{ index .OutputFields "user.name" }}*' # a Go template to format Slack Text above Attachment, displayed in addition to the output from `SLACK_OUTPUTFORMAT`, see [Slack Message Formatting](#slack-message-formatting) in the README for details. If empty, no Text is displayed before Attachment.
+
+kafka:
+  hostport: "" # Apache Kafka Host:Port (ex: localhost:9092). Defaults to port 9092 if no port is specified after the domain, if not empty, Kafka output is enabled
+  topic: "" # Name of the topic, if not empty, Kafka output is enabled
+  # partition: 0 # Partition number of the topic.
+  # minimumpriority: "debug" # minimum priority of event for using this output, order is emergency|alert|critical|error|warning|notice|informational|debug or "" (default)
+
+kubeless:
+  function: "" # Name of Kubeless function, if not empty, Kubeless is enabled
+  namespace: "" # Namespace of Kubeless function (mandatory)
+  port: 8080 # Port of service of Kubeless function
+  kubeconfig: "~/.kube/config" # Kubeconfig file to use (only if falcoside is running outside the cluster)
+  # minimumpriority: "debug" # minimum priority of event for using this output, order is emergency|alert|critical|error|warning|notice|informational|debug or "" (default)
