@@ -12,8 +12,15 @@
 
 1. Install This repo:
     ```
-   ko apply -f ./config/drop
+   kubectl apply -f https://github.com/n3wscott/falco-drop/releases/download/v0.0.2/release.yaml
    ```
+
+1. Optionally, install [Sockeye](https://github.com/n3wscott/sockeye).
+1. Optionally, install [Graph](https://github.com/n3wscott/graph).
+
+After this is all installed, you will have an eventing topology like this:
+
+![Eventing Topology](./img/graph.png)
 
 ## Demo
 
@@ -33,7 +40,7 @@
 
     > falco-969dv falco {"output":"23:48:20.851908334: Notice A shell was spawned in a container with an attached terminal (user=root user_loginuid=-1 k8s.ns=default k8s.pod=mysql-db-7d59548d75-wh44s container=f29b261f8831 shell=bash parent=runc cmdline=bash -il terminal=34816 container_id=f29b261f8831 image=mysql) k8s.ns=default k8s.pod=mysql-db-7d59548d75-wh44s container=f29b261f8831","priority":"Notice","rule":"Terminal shell in container","time":"2021-01-11T23:48:20.851908334Z", "output_fields": {"container.id":"f29b261f8831","container.image.repository":"mysql","evt.time":1610408900851908334,"k8s.ns.name":"default","k8s.pod.name":"mysql-db-7d59548d75-wh44s","proc.cmdline":"bash -il","proc.name":"bash","proc.pname":"runc","proc.tty":34816,"user.loginuid":-1,"user.name":"root"}}
 
-2. Falco Sidekick produces a CloudEvent:
+1. Falco Sidekick produces a CloudEvent:
 
     ```
     Context Attributes,
@@ -69,9 +76,15 @@
       }
     ```
    
-   And sends this to the consumer `<drop>`.
+   And sends this to the Knative Eventing Broker "default".
 
-3. `<Drop>` filters events and for the Rule `Terminal shell in container`, deletes the pod:
-   
+1. The Knative Eventing Broker delivers the CloudEvent to all matching triggers, in our case two:
+
+
+  1. The `drop` service filters events and for the Rule `Terminal shell in container`, deletes the pod:
+
     > [Terminal shell in container] deleted mysql-db-7d59548d75-wh44s from default because 23:48:20.851908334: Notice A shell was spawned in a container with an attached terminal (user=root user_loginuid=-1 k8s.ns=default k8s.pod=mysql-db-7d59548d75-wh44s container=f29b261f8831 shell=bash parent=runc cmdline=bash -il terminal=34816 container_id=f29b261f8831 image=mysql) k8s.ns=default k8s.pod=mysql-db-7d59548d75-wh44s container=f29b261f8831
 
+  1. `Sockeye` also recieves the event and displays it:
+
+    ![Sockeye showing the CloudEvent](./img/sockeye.png)
