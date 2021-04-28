@@ -3,14 +3,18 @@
 ## Setup
 
 1. Install [Knative Serving and Eventing](https://knative.dev).
+1. Install [Falco](https://falco.org/).
+    > Note: Falco needs to be configured to send to Falco Sidekick.
 1. Install This repo:
      ```
-    kubectl apply -f https://github.com/n3wscott/falco-drop/releases/download/v0.0.2/release.yaml
+    kubectl apply -f https://github.com/n3wscott/falco-drop/releases/download/v0.1.0/release.yaml
     ```
-    > Note: This release contains [Falco Sidekick](https://github.com/falcosecurity/falcosidekick), deployed as a Knative Service.
-1. Install [Falco](https://falco.org/).
-    > Note: Falco needs to be configured to send to Falco Sidekick. `kubectl get ksvc falcosidekick` for the url.
 1. Optionally, install [Sockeye](https://github.com/n3wscott/sockeye).
+    1. Install the trigger for sockeye:
+    ```
+    kubectl apply -f https://raw.githubusercontent.com/n3wscott/falco-drop/main/demo/sockeye-trigger.yaml
+    ```
+    
 1. Optionally, install [Graph](https://github.com/n3wscott/graph).
 
 After this is all installed, you will have an eventing topology like this:
@@ -84,5 +88,5 @@ After this is all installed, you will have an eventing topology like this:
   (╯°□°)╯︵     kubectl exec -it $(kubectl get pods --selector="app=mysql-db" --output=jsonpath={.items..metadata.name}) -- bash -il
   root@mysql-db-7d59548d75-89v4c:/# command terminated with exit code 137
   ```
-- `Sockeye` also recieves the event and displays it:
+- `Sockeye` also receives the event and displays it:
   ![Sockeye showing the CloudEvent](./img/sockeye.png)
